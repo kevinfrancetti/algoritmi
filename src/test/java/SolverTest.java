@@ -1,4 +1,4 @@
-import ch.supsi.cognome.Main;
+import ch.supsi.kevin.Main;
 import org.junit.Test;
 
 public class SolverTest {
