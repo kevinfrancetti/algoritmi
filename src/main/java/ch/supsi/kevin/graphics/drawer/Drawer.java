@@ -1,4 +1,4 @@
-package ch.supsi.kevin.drawer;
+package ch.supsi.kevin.graphics.drawer;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;

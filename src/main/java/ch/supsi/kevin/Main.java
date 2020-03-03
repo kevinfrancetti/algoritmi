@@ -1,15 +1,23 @@
 package ch.supsi.kevin;
 
-import ch.supsi.kevin.drawer.Drawer;
+import ch.supsi.kevin.graphics.drawer.Drawer;
+import ch.supsi.kevin.tspfilereader.TspFileToData;
 
-import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         System.out.println("hello, world");
-        Drawer d = new Drawer();
-        d.test();
+        File f = new File("src/main/resources/ch130.tsp");
+        try {
+            TspFileToData.convert(f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Drawer d = new Drawer();
+        //d.test();
 
     }
 
