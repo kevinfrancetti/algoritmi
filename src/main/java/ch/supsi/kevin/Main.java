@@ -20,6 +20,11 @@ public class Main {
         List<TspData> tspDataList;
 
         tspDataList = TspFileToData.convertFromFolder(new File(sb.toString()));
+        for(TspData data : tspDataList){
+            data.printData();
+            System.out.println();
+        }
+
         System.out.println("YOLO");
 
         //Drawer d = new Drawer();

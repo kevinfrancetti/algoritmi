@@ -13,13 +13,13 @@ import java.util.List;
 public class TspFileToData {
 
     public static List<TspData> convertFromFolder(File folder) {
-        List<TspData> data = new ArrayList<>();
+        List<TspData> tspDataArrayList = new ArrayList<>();
         for (String s : folder.list()) {
             if (s.matches(".*\\.tsp$")) {//Find all files ending with .tsp
-                data.add(convertFromFile(new File(folder.toString() + "/" + s)));
+                tspDataArrayList.add(convertFromFile(new File(folder.toString() + "/" + s)));
             }
         }
-        return data;
+        return tspDataArrayList;
     }
 
     public static TspData convertFromFile(File file) {
@@ -42,7 +42,6 @@ public class TspFileToData {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;//Something went wrong if here
+        return null;//Something went wrong if you land here
     }
-
 }
