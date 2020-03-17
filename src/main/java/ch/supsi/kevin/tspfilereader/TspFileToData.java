@@ -12,6 +12,11 @@ import java.util.List;
  */
 public class TspFileToData {
 
+    /**
+     * Reads all .tsp files and return a {@link List<TspData>}
+     * @param folder
+     * @return lista {@link List<TspData>}
+     */
     public static List<TspData> convertFromFolder(File folder) {
         List<TspData> tspDataArrayList = new ArrayList<>();
         for (String s : folder.list()) {
@@ -22,7 +27,7 @@ public class TspFileToData {
         return tspDataArrayList;
     }
 
-    public static TspData convertFromFile(File file) {
+    private static TspData convertFromFile(File file) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             //Skip 8 lines because of the file format.
