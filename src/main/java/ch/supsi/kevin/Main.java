@@ -1,31 +1,28 @@
 package ch.supsi.kevin;
 
+import ch.supsi.kevin.algos.metaheuristic.NN;
 import ch.supsi.kevin.datastructure.TspData;
-import ch.supsi.kevin.graphics.drawer.Drawer;
-import ch.supsi.kevin.tspfilereader.TspFileToData;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.util.*;
 
 public class Main {
+    private final static String folderPath = "src/main/resources/";
 
     public static void main(String[] args)  {
+        Map<String, TspData> map;
 
-        System.out.println("hello, world banana");
-        StringBuilder sb = new StringBuilder("src/main/resources/");
-
-        List<TspData> tspDataList;
-
-        tspDataList = TspFileToData.convertFromFolder(new File(sb.toString()));
-        for(TspData data : tspDataList){
-            data.printData();
-            System.out.println();
+        map = TspData.folderToMapOfTspData(new File(folderPath));
+        for(String s : map.keySet()){
+            System.out.println(s);
         }
+        TspData fake = map.get("fake.tsp");
+        float[] f = fake.data;
+        f[1] = 666;
+        System.out.println(fake.data[1]);
 
-        System.out.println("YOLO");
+
 
         //Drawer d = new Drawer();
         //d.test();
