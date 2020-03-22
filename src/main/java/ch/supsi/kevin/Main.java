@@ -1,31 +1,24 @@
 package ch.supsi.kevin;
 
 import ch.supsi.kevin.datastructure.TspData;
-import ch.supsi.kevin.graphics.drawer.Drawer;
-import ch.supsi.kevin.tspfilereader.TspFileToData;
 
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.regex.Pattern;
+import java.util.*;
 
 public class Main {
+    private final static String FOLDER_PATH = "src/main/resources/";
 
     public static void main(String[] args)  {
+        Map<String, TspData> map;
 
-        System.out.println("hello, world banana");
-        StringBuilder sb = new StringBuilder("src/main/resources/");
-
-        List<TspData> tspDataList;
-
-        tspDataList = TspFileToData.convertFromFolder(new File(sb.toString()));
-        for(TspData data : tspDataList){
-            data.printData();
-            System.out.println();
+        map = TspData.folderToMapOfTspData(FOLDER_PATH);
+        for(String s : map.keySet()){
+            System.out.println(s);
         }
+        TspData fake = map.get("fake.tsp");
+        System.out.println(fake.size);
 
-        System.out.println("YOLO");
 
         //Drawer d = new Drawer();
         //d.test();
