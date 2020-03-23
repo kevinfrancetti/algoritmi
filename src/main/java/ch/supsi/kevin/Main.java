@@ -2,8 +2,6 @@ package ch.supsi.kevin;
 
 import ch.supsi.kevin.datastructure.TspData;
 
-
-import java.io.File;
 import java.util.*;
 
 public class Main {
@@ -19,10 +17,5 @@ public class Main {
         TspData fake = map.get("fake.tsp");
         System.out.println(fake.size);
 
-
-        //Drawer d = new Drawer();
-        //d.test();
-
     }
-
 }

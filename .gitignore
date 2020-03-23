@@ -106,3 +106,7 @@ buildNumber.properties
 .flattened-pom.xml
 
 # End of https://www.gitignore.io/api/maven,intellij
+
+
+# Kevin
+images/*

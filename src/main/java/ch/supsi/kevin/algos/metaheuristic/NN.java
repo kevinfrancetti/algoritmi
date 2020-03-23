@@ -3,15 +3,13 @@ package ch.supsi.kevin.algos.metaheuristic;
 import ch.supsi.kevin.datastructure.ListType;
 import ch.supsi.kevin.datastructure.Point;
 import ch.supsi.kevin.datastructure.TspData;
-import static ch.supsi.kevin.datastructure.TspData.*;
 
-import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
 public class NN {
 
-    public static List<Point> compute(TspData tspData){
+    public static List<Point> solve(TspData tspData){
         List<Point> inputPoints = TspData.floatToListOfPoint(tspData, ListType.LINKED);
         List<Point> outputPoints = new LinkedList<>();
 
@@ -19,7 +17,6 @@ public class NN {
         outputPoints.add(current);
 
         float sumOfDistances = 0;
-
 
         while (inputPoints.size() != 1){
             float tmpMinDistance = Float.MAX_VALUE;
@@ -49,7 +46,7 @@ public class NN {
 
     public static void main(String[] args){
         System.out.println("Nearest neighbour");
-        List<Point> path = compute(TspData.folderToMapOfTspData("src/main/resources/").get("fl1577.tsp"));
+        List<Point> path = solve(TspData.folderToMapOfTspData("src/main/resources/").get("fl1577.tsp"));
 
         for(Point p : path){
             System.out.println(p);
