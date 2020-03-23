@@ -15,6 +15,7 @@ public class TspData {
     private final float[] data;//Length will always be even
     public final int size; // This value is data.length / 2
 
+    @Deprecated
     public TspData(float[] data){
         this.data = data;
         this.size = data.length / 2;
@@ -110,5 +111,4 @@ public class TspData {
         }
         return null;//Something went wrong if you land here
     }
-
 }
