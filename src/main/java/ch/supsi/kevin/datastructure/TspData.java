@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class TspData {
 
-    private final float[] data;//Length will always be even
+    public final float[] data;//Length will always be even
     public final int size; // This value is data.length / 2
 
     @Deprecated
