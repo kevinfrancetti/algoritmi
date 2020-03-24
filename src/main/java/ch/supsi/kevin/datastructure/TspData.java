@@ -54,22 +54,6 @@ public class TspData {
     }
 
     /**
-     * Reads all .tsp files inside a folder and returns a list of {@link TspData}
-     * @param folder {@link File} that is  folder.
-     * @return list of {@link TspData}
-     */
-    @Deprecated
-    public static List<TspData> folderToListOfTspData(File folder) {
-        List<TspData> tspDataArrayList = new ArrayList<>();
-        for (String s : folder.list()) {
-            if (s.matches(".*\\.tsp$")) {//Find all files ending with .tsp
-                tspDataArrayList.add(fileToTspData(new File(folder.toString() + "/" + s)));
-            }
-        }
-        return tspDataArrayList;
-    }
-
-    /**
      * Reads all .tsp files inside a folder and returns a map {@link Map}
      * where the key is the filename with the extension included
      * @param folderPath {@link String} a folder containing .tsp files.

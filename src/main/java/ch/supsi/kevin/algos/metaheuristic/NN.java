@@ -51,7 +51,5 @@ public class NN {
         for(Point p : path){
             System.out.println(p);
         }
-
     }
-
 }
