@@ -1,5 +1,7 @@
 package ch.supsi.kevin.datastructure;
 
+import ch.supsi.kevin.Main;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,50 +10,45 @@ import java.util.*;
 
 /**
  * All the data is stored inside a float[], every point is composed by x and y,
- * hence the size of a single date is two floats
+ * hence the size of a single data is two floats
  */
 public class TspData {
+    public final String name;
 
-    public final float[] data;//Length will always be even
-    public final int size; // This value is data.length / 2
+    //Different formats for different algos
+    public final float[] rawDataArray;//Length will always be even
+    public final List<Float> dataList;
 
-    @Deprecated
-    public TspData(float[] data){
-        this.data = data;
-        this.size = data.length / 2;
-    }
-
-    public TspData(List<Float> data){
-        this.data = new float[data.size()];
-        this.size = this.data.length / 2;
-        for(int i = 0; i < this.data.length; i++){
-            this.data[i] = data.get(i);
+    public TspData(List<Float> dataList, String name){
+        this.dataList = dataList;
+        this.name = name;
+        this.rawDataArray = new float[dataList.size()];
+        for(int i = 0; i < this.rawDataArray.length; i++){
+            this.rawDataArray[i] = dataList.get(i);
         }
     }
 
     /*DEBUG PROPOSE*/
     public void printData(){
-        for(int i = 0; i < data.length; i++){
-            System.out.print(data[i] + " ");
+        System.out.println(name + ": ");
+        for(int i = 0; i < rawDataArray.length; i++){
+            System.out.print(rawDataArray[i] + " ");
         }
     }
 
-    /*=============PUBLIC STATIC METHODS===============*/
-
-    //SPERIMENTAL
-    public static List<Point> floatToListOfPoint(TspData tspData, ListType type){
-        float[] data = tspData.data;
+    public List<Point> toListOfPoint(ListType type){
         List<Point> list;
-
         if(type == ListType.LINKED) list = new LinkedList<>();
         else list = new ArrayList<>();
 
-        for(int i = 0; i < data.length; i+=2){
-            list.add(new Point(data[i], data[i+1]));
-            //System.out.println(" " + i + " --- " + (i + 1) );//TODO tmp
+        for(int i = 0; i < rawDataArray.length; i+=2){
+            list.add(new Point(rawDataArray[i], rawDataArray[i+1]));
+            //System.out.println(" " + i + " --- " + (i + 1) );//TODO used for debug
         }
         return list;
     }
+
+    /*=============PUBLIC STATIC METHODS===============*/
 
     /**
      * Reads all .tsp files inside a folder and returns a map {@link Map}
@@ -62,9 +59,9 @@ public class TspData {
     public static Map<String, TspData> folderToMapOfTspData(String folderPath) {
         File folder = new File(folderPath);
         Map<String, TspData> map = new HashMap<>();
-        for (String s : folder.list()) {
-            if (s.matches(".*\\.tsp$")) {//Find all files ending with .tsp
-                map.put(s, fileToTspData(new File(folder.toString() + "/" + s)));
+        for (String fileName : folder.list()) {
+            if (fileName.matches(".*\\.tsp$")) {//Find all files ending with .tsp
+                map.put(fileName, fileToTspData(folder.toString() + "/" + fileName));
             }
         }
         return map;
@@ -73,8 +70,9 @@ public class TspData {
     /*=============PRIVATE STATIC METHODS===============*/
 
     /*Read a single file and returns a TspData Object*/
-    private static TspData fileToTspData(File file) {
+    private static TspData fileToTspData(String filePath) {
         try {
+            File file = new File(filePath);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             //Skip 8 lines because of the file format.
             for (int i = 0; i < 7; i++) {
@@ -84,7 +82,7 @@ public class TspData {
             while (true) {
                 String line = bufferedReader.readLine();
                 if (line == null || line.equals("EOF")) {
-                    return new TspData(list);
+                    return new TspData(list, file.getName());
                 }
                 String[] tmp = line.split(" ");
                 list.add(Float.parseFloat(tmp[1]));
@@ -95,4 +93,13 @@ public class TspData {
         }
         return null;//Something went wrong if you land here
     }
+
+
+    public static void main(String[] args){
+        Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
+
+        map.get("ch130.tsp").printData();
+
+    }
+
 }

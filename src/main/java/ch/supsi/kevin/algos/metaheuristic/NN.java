@@ -10,7 +10,7 @@ import java.util.List;
 public class NN {
 
     public static List<Point> solve(TspData tspData){
-        List<Point> inputPoints = TspData.floatToListOfPoint(tspData, ListType.LINKED);
+        List<Point> inputPoints = tspData.toListOfPoint(ListType.LINKED);
         List<Point> outputPoints = new LinkedList<>();
 
         Point current = inputPoints.remove(8);//This should be random or seed

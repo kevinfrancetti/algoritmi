@@ -1,9 +1,5 @@
 package ch.supsi.kevin;
 
-import ch.supsi.kevin.datastructure.TspData;
-
-import java.util.*;
-
 public class Main {
     public final static String FOLDER_PATH = "src/main/resources/";
 
