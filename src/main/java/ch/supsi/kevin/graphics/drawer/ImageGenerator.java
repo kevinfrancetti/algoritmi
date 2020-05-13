@@ -1,7 +1,7 @@
 package ch.supsi.kevin.graphics.drawer;
 
 import ch.supsi.kevin.Main;
-import ch.supsi.kevin.algos.metaheuristic.NN;
+import ch.supsi.kevin.algos.constructive.NN;
 import ch.supsi.kevin.datastructure.TspData;
 import ch.supsi.kevin.datastructure.Point;
 
@@ -64,6 +64,7 @@ public class ImageGenerator {
             if(p.y > yMax) yMax = p.y;
         }
 
+
         /*Apply scaled coordinates to image*/
         for (int i = 0; i < pointList.size()-1; i++) {
             graphics2D.draw(new Line2D.Double(pointList.get(i).x * WIDTH/xMax, pointList.get(i).y * HEIGHT/yMax,
@@ -80,9 +81,12 @@ public class ImageGenerator {
     public static void main(String[] args) throws IOException {
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
 
+        /*
         for(String title : map.keySet()){
             generatePNG(NN.solve(map.get(title)),  title + ".png");
         }
+        */
+        generatePNG(NN.solve(map.get("fake.tsp")), "fake2.png");
 
         /*
         List<Point> list = NN.solve(tspData);
