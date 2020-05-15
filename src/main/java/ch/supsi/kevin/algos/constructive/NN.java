@@ -19,7 +19,7 @@ public class NN {
 
         float sumOfDistances = 0;
 
-        while (inputPoints.size() != 0){//TODO ERROR
+        while (inputPoints.size() != 0){
             float tmpMinDistance = Float.MAX_VALUE;
             int tmpMinDistIndex = -1;
 

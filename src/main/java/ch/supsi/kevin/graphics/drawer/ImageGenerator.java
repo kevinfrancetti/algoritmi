@@ -7,7 +7,9 @@ import ch.supsi.kevin.datastructure.Point;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -67,10 +69,16 @@ public class ImageGenerator {
 
         /*Apply scaled coordinates to image*/
         for (int i = 0; i < pointList.size()-1; i++) {
+            if(i%2 == 0) graphics2D.setColor(Color.blue);
+            else  graphics2D.setColor(Color.red);
             graphics2D.draw(new Line2D.Double(pointList.get(i).x * WIDTH/xMax, pointList.get(i).y * HEIGHT/yMax,
                     pointList.get(i + 1).x * WIDTH/xMax, pointList.get(i+1).y * HEIGHT/yMax));
+            if(i==0) graphics2D.setColor(Color.green);
+            Shape s = new Ellipse2D.Double((pointList.get(i).x * WIDTH/xMax)-2.5, (pointList.get(i).y * HEIGHT/yMax) - 2.5, 5, 5);
+            graphics2D.fill(s);
+            graphics2D.draw(s);
         }
-        graphics2D.dispose();
+
 
         /*Saving the image*/
         String outputDirectoryName = "images";
@@ -81,11 +89,11 @@ public class ImageGenerator {
     public static void main(String[] args) throws IOException {
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
 
-        /*
+
         for(String title : map.keySet()){
             generatePNG(NN.solve(map.get(title)),  title + ".png");
         }
-        */
+
         generatePNG(NN.solve(map.get("fake.tsp")), "fake2.png");
 
         /*

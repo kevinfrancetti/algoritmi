@@ -1,11 +1,11 @@
 package ch.supsi.kevin.datastructure;
 
-public class Arch {
+public class Edge {
     public Point p1;
     public Point p2;
     public float distance;
 
-    public Arch(Point p1, Point p2){
+    public Edge(Point p1, Point p2){
         this.p1 = p1;
         this.p2 = p2;
         distance = distance();
