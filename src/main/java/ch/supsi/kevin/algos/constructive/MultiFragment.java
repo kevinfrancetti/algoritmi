@@ -13,7 +13,7 @@ public class MultiFragment {
         List<Point> inputPoints = tspData.toListOfPoint(ListType.LINKED);
         List<Point> outputPoints = new LinkedList<>();
         List<Edge> edges = new LinkedList<>();
-        List<Edge> outputArchList = new LinkedList<>();
+        List<Edge> outputEdgeList = new LinkedList<>();
 
         /*Getting all the possible edges*/
         for (int i = 0; i < inputPoints.size(); i++) {
@@ -50,15 +50,17 @@ public class MultiFragment {
                 Point.disconnect(edge.p1, edge.p2);
                 continue;
             }
-            outputArchList.add(edge);
+            outputEdgeList.add(edge);
 
         }
 
-
-        for (Edge arch : outputArchList) {
-            System.out.println(arch);
+        float distance = 0;
+        for (Edge edge : outputEdgeList) {
+            System.out.println(edge);
+            distance += edge.distance;
         }
-        System.out.println(outputArchList.size());
+        System.out.println("Number of edges: " + outputEdgeList.size());
+        System.out.println("Length: " + distance);
     }
 
     static boolean recursiveCheck(Point p, Point previous, Set<Point> memory) {
@@ -73,13 +75,13 @@ public class MultiFragment {
 
     static boolean checkIfCyclic(Edge e) {
         Set<Point> memory = new HashSet<>();
-        return recursiveCheck(e.p1, e.p1, memory) && recursiveCheck(e.p2, e.p2, memory);
+        return recursiveCheck(e.p1, e.p1, new HashSet<>()) && recursiveCheck(e.p2, e.p2, new HashSet<>());
     }
 
     public static void main(String[] args) {
 
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
-        TspData data = map.get("pcb442.tsp");
+        TspData data = map.get("fake.tsp");
         solve(data);
 
         System.out.println("Yolo");

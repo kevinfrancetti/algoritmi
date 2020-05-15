@@ -66,7 +66,6 @@ public class ImageGenerator {
             if(p.y > yMax) yMax = p.y;
         }
 
-
         /*Apply scaled coordinates to image*/
         for (int i = 0; i < pointList.size()-1; i++) {
             if(i%2 == 0) graphics2D.setColor(Color.blue);
