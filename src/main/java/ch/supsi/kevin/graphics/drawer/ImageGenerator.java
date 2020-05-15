@@ -78,7 +78,7 @@ public class ImageGenerator {
             graphics2D.fill(s);
             graphics2D.draw(s);
         }
-
+        graphics2D.dispose();
 
         /*Saving the image*/
         String outputDirectoryName = "images";
