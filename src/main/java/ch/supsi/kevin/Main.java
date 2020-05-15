@@ -1,24 +1,33 @@
 package ch.supsi.kevin;
 
-import ch.supsi.kevin.graphics.drawer.Drawer;
-import ch.supsi.kevin.tspfilereader.TspFileToData;
-
-import java.io.File;
-import java.io.IOException;
-
 public class Main {
+    public final static String FOLDER_PATH = "src/main/resources/";
 
     public static void main(String[] args)  {
-        System.out.println("hello, world");
-        File f = new File("src/main/resources/ch130.tsp");
-        try {
-            TspFileToData.convert(f);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        /*Debug info
+        System.out.println("args: ");
+        for(String arg : args){
+            System.out.print(arg + " ");
         }
-        //Drawer d = new Drawer();
-        //d.test();
+        System.out.println();
+         */
+
+        if(args[0].matches("[aA][lL]{2}")){
+            System.out.print("YES");
+
+        }
+
+        /*
+        Map<String, TspData> map;
+
+        map = TspData.folderToMapOfTspData(FOLDER_PATH);
+        for(String s : map.keySet()){
+            System.out.println(s);
+        }
+        TspData fake = map.get("fake.tsp");
+        System.out.println(fake.size);
+         */
 
     }
-
 }

@@ -5,7 +5,7 @@ public class SolverTest {
 
     @Test(timeout = 181000)
     public void ch130() {
-        String[] args = {};
+        String[] args = {"ch130.tsp"};
         Main.main(args);
     }
 
