@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ImageGenerator {
-    private static int WIDTH = 1000;
-    private static int HEIGHT = 1000;
+    private static int WIDTH = 1500;
+    private static int HEIGHT = 1500;
 
     @Deprecated
     public static void generatePNG(float[] tspArrayData) throws IOException {
@@ -75,10 +75,17 @@ public class ImageGenerator {
         for (int i = 0; i < edgeList.size(); i++) {
             if(i%2 == 0) graphics2D.setColor(Color.blue);
             else  graphics2D.setColor(Color.red);
+            if(i==0) graphics2D.setColor(Color.green);
+            if(i == edgeList.size() -1) graphics2D.setColor(Color.black);
             graphics2D.draw(new Line2D.Double(edgeList.get(i).p1.x * WIDTH/xMax, edgeList.get(i).p1.y * HEIGHT/yMax,
                     edgeList.get(i).p2.x * WIDTH/xMax, edgeList.get(i).p2.y * HEIGHT/yMax));
-            if(i==0) graphics2D.setColor(Color.green);
-            Shape s = new Ellipse2D.Double((edgeList.get(i).p1.x * WIDTH/xMax)-2.5, (edgeList.get(i).p1.y * HEIGHT/yMax) - 2.5, 5, 5);
+            Shape s;
+            if(i==0){
+                graphics2D.setColor(Color.green);
+                s = new Ellipse2D.Double((edgeList.get(i).p1.x * WIDTH/xMax)-7.5, (edgeList.get(i).p1.y * HEIGHT/yMax) - 7.5, 15, 15);
+            }else {
+                s = new Ellipse2D.Double((edgeList.get(i).p1.x * WIDTH/xMax)-2.5, (edgeList.get(i).p1.y * HEIGHT/yMax) - 2.5, 5, 5);
+            }
             graphics2D.fill(s);
             graphics2D.draw(s);
         }
@@ -112,11 +119,19 @@ public class ImageGenerator {
             else  graphics2D.setColor(Color.red);
             graphics2D.draw(new Line2D.Double(pointList.get(i).x * WIDTH/xMax, pointList.get(i).y * HEIGHT/yMax,
                     pointList.get(i + 1).x * WIDTH/xMax, pointList.get(i+1).y * HEIGHT/yMax));
-            if(i==0) graphics2D.setColor(Color.green);
-            Shape s = new Ellipse2D.Double((pointList.get(i).x * WIDTH/xMax)-2.5, (pointList.get(i).y * HEIGHT/yMax) - 2.5, 5, 5);
+            Shape s;
+            if(i==0) {
+                graphics2D.setColor(Color.green);
+                s = new Ellipse2D.Double((pointList.get(i).x * WIDTH/xMax)- 7.5, (pointList.get(i).y * HEIGHT/yMax) - 7.5, 15, 15);
+            }else{
+                s = new Ellipse2D.Double((pointList.get(i).x * WIDTH/xMax)-2.5, (pointList.get(i).y * HEIGHT/yMax) - 2.5, 5, 5);
+            }
             graphics2D.fill(s);
             graphics2D.draw(s);
         }
+        graphics2D.setColor(Color.green);
+        graphics2D.draw(new Line2D.Double(pointList.get(0).x * WIDTH/xMax, pointList.get(0).y * HEIGHT/yMax,
+                pointList.get(pointList.size()-1).x * WIDTH/xMax, pointList.get(pointList.size()-1).y * HEIGHT/yMax));
         graphics2D.dispose();
 
         /*Saving the image*/
@@ -130,7 +145,7 @@ public class ImageGenerator {
 
 
         for(String title : map.keySet()){
-            //generatePNG(NN.solve(map.get(title)),  title + ".NN.png");
+            generatePNG(NN.solve(map.get(title)),  title + ".NN.png");
             generatePNGfromEdges(MultiFragment.solve(map.get(title)), title + ".MF.png");
         }
 

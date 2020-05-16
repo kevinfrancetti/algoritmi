@@ -2,7 +2,9 @@ package ch.supsi.kevin.algos.constructive;
 
 import ch.supsi.kevin.Main;
 import ch.supsi.kevin.datastructure.*;
+import ch.supsi.kevin.graphics.ImageGenerator;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -21,13 +23,6 @@ public class MultiFragment {
             }
         }
 
-        /*
-        for (Edge a : edges) {
-            System.out.println(a.distance);
-        }
-        System.out.println("==========");
-        */
-
         /*Sorting in ascending order*/
         edges.sort((Edge a1, Edge a2) -> {
             float delta = a1.distance - a2.distance;
@@ -36,33 +31,21 @@ public class MultiFragment {
             return 0;
         });
 
-        /*
-        for (Edge a : edges) {
-            System.out.println(a.distance);
-        }
-        System.out.println(edges.size());
-         */
-
+        float distance = 0;//TODO tmp
         for (Edge edge : edges) {
+
             /*Check conditions*/
-            if(edge.p1.neighbours.size() >= 2 || edge.p2.neighbours.size() >=2) continue;
+            if (edge.p1.neighbours.size() >= 2 || edge.p2.neighbours.size() >= 2) continue;
             Point.connect(edge.p1, edge.p2);
-            if(checkIfCyclic(edge)){
+            if (checkIfCyclic(edge) && outputEdgeList.size() + 1 != inputPoints.size()) {//Recursive check
                 Point.disconnect(edge.p1, edge.p2);
                 continue;
             }
             outputEdgeList.add(edge);
-        }
-
-        /*
-        float distance = 0;
-        for (Edge edge : outputEdgeList) {
-            System.out.println(edge);
             distance += edge.distance;
         }
-        System.out.println("Number of edges: " + outputEdgeList.size());
-        System.out.println("Length: " + distance);
-         */
+
+        System.out.println(tspData.name + ".MF  Length: " + distance);
         return outputEdgeList;
     }
 
@@ -77,23 +60,23 @@ public class MultiFragment {
     }
 
     static boolean checkIfCyclic(Edge e) {
-        Set<Point> memory = new HashSet<>();//TODO check this, seems strange
+        //Set<Point> memory = new HashSet<>();//TODO check this, seems strange
         return recursiveCheck(e.p1, e.p1, new HashSet<>()) && recursiveCheck(e.p2, e.p2, new HashSet<>());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
         TspData data = map.get("fake.tsp");
         List<Edge> solution = solve(data);
+        ImageGenerator.generatePNGfromEdges(solution, "ZZ.png");
 
         float distance = 0;
-        for(Edge e : solution){
+        for (Edge e : solution) {
             System.out.println(e);
             distance += e.distance;
         }
         System.out.println("Distance: " + distance);
 
     }
-
 }
