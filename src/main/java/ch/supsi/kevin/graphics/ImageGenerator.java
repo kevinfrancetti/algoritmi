@@ -1,7 +1,9 @@
-package ch.supsi.kevin.graphics.drawer;
+package ch.supsi.kevin.graphics;
 
 import ch.supsi.kevin.Main;
+import ch.supsi.kevin.algos.constructive.MultiFragment;
 import ch.supsi.kevin.algos.constructive.NN;
+import ch.supsi.kevin.datastructure.Edge;
 import ch.supsi.kevin.datastructure.TspData;
 import ch.supsi.kevin.datastructure.Point;
 
@@ -50,6 +52,44 @@ public class ImageGenerator {
         ImageIO.write(image, "png", new File(outputDirectoryName + "/image.png"));
     }
 
+
+    public static void generatePNGfromEdges(List<Edge> edgeList, String title) throws IOException {
+        /*Image global setup*/
+        final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D graphics2D = image.createGraphics();
+        graphics2D.setPaint(Color.WHITE);
+        graphics2D.fillRect(0, 0, WIDTH, HEIGHT);
+        graphics2D.setPaint(Color.BLACK);
+
+        /*Preparing for scaling the data for fit the image size*/
+        float xMax = -1;
+        float yMax = -1;
+        for (Edge e : edgeList) {
+            if(e.p1.x > xMax) xMax = e.p1.x;
+            if(e.p1.y > yMax) yMax = e.p1.y;
+            if(e.p2.x > xMax) xMax = e.p2.x;
+            if(e.p2.y > yMax) yMax = e.p2.y;
+        }
+
+        /*Apply scaled coordinates to image*/
+        for (int i = 0; i < edgeList.size(); i++) {
+            if(i%2 == 0) graphics2D.setColor(Color.blue);
+            else  graphics2D.setColor(Color.red);
+            graphics2D.draw(new Line2D.Double(edgeList.get(i).p1.x * WIDTH/xMax, edgeList.get(i).p1.y * HEIGHT/yMax,
+                    edgeList.get(i).p2.x * WIDTH/xMax, edgeList.get(i).p2.y * HEIGHT/yMax));
+            if(i==0) graphics2D.setColor(Color.green);
+            Shape s = new Ellipse2D.Double((edgeList.get(i).p1.x * WIDTH/xMax)-2.5, (edgeList.get(i).p1.y * HEIGHT/yMax) - 2.5, 5, 5);
+            graphics2D.fill(s);
+            graphics2D.draw(s);
+        }
+        graphics2D.dispose();
+
+        /*Saving the image*/
+        String outputDirectoryName = "images";
+        new File(outputDirectoryName).mkdirs();//TODO manage this
+        ImageIO.write(image, "png", new File(outputDirectoryName + "/" + title));
+    }
+
     public static void generatePNG(List<Point> pointList, String title) throws IOException {
         /*Image global setup*/
         final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -90,10 +130,13 @@ public class ImageGenerator {
 
 
         for(String title : map.keySet()){
-            generatePNG(NN.solve(map.get(title)),  title + ".png");
+            //generatePNG(NN.solve(map.get(title)),  title + ".NN.png");
+            generatePNGfromEdges(MultiFragment.solve(map.get(title)), title + ".MF.png");
         }
 
-        generatePNG(NN.solve(map.get("fake.tsp")), "fake2.png");
+
+        //generatePNGfromEdges(MultiFragment.solve(map.get("fake.tsp")), "fake2.MF.png");
+        //generatePNG(NN.solve(map.get("fake.tsp")), "fake2.png");
 
         /*
         List<Point> list = NN.solve(tspData);

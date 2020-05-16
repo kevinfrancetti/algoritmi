@@ -8,10 +8,8 @@ import java.util.List;
 
 public class MultiFragment {
 
-
-    public static void solve(TspData tspData) {
+    public static List<Edge> solve(TspData tspData) {
         List<Point> inputPoints = tspData.toListOfPoint(ListType.LINKED);
-        List<Point> outputPoints = new LinkedList<>();
         List<Edge> edges = new LinkedList<>();
         List<Edge> outputEdgeList = new LinkedList<>();
 
@@ -19,14 +17,16 @@ public class MultiFragment {
         for (int i = 0; i < inputPoints.size(); i++) {
             for (int j = i + 1; j < inputPoints.size(); j++) {
                 edges.add(new Edge(inputPoints.get(i), inputPoints.get(j)));
-                System.out.println("i: " + i + " j: " + j);
+                //System.out.println("i: " + i + " j: " + j);
             }
         }
 
+        /*
         for (Edge a : edges) {
             System.out.println(a.distance);
         }
         System.out.println("==========");
+        */
 
         /*Sorting in ascending order*/
         edges.sort((Edge a1, Edge a2) -> {
@@ -36,13 +36,14 @@ public class MultiFragment {
             return 0;
         });
 
+        /*
         for (Edge a : edges) {
             System.out.println(a.distance);
         }
         System.out.println(edges.size());
+         */
 
         for (Edge edge : edges) {
-
             /*Check conditions*/
             if(edge.p1.neighbours.size() >= 2 || edge.p2.neighbours.size() >=2) continue;
             Point.connect(edge.p1, edge.p2);
@@ -51,9 +52,9 @@ public class MultiFragment {
                 continue;
             }
             outputEdgeList.add(edge);
-
         }
 
+        /*
         float distance = 0;
         for (Edge edge : outputEdgeList) {
             System.out.println(edge);
@@ -61,6 +62,8 @@ public class MultiFragment {
         }
         System.out.println("Number of edges: " + outputEdgeList.size());
         System.out.println("Length: " + distance);
+         */
+        return outputEdgeList;
     }
 
     static boolean recursiveCheck(Point p, Point previous, Set<Point> memory) {
@@ -74,7 +77,7 @@ public class MultiFragment {
     }
 
     static boolean checkIfCyclic(Edge e) {
-        Set<Point> memory = new HashSet<>();
+        Set<Point> memory = new HashSet<>();//TODO check this, seems strange
         return recursiveCheck(e.p1, e.p1, new HashSet<>()) && recursiveCheck(e.p2, e.p2, new HashSet<>());
     }
 
@@ -82,9 +85,14 @@ public class MultiFragment {
 
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
         TspData data = map.get("fake.tsp");
-        solve(data);
+        List<Edge> solution = solve(data);
 
-        System.out.println("Yolo");
+        float distance = 0;
+        for(Edge e : solution){
+            System.out.println(e);
+            distance += e.distance;
+        }
+        System.out.println("Distance: " + distance);
 
     }
 
