@@ -11,14 +11,14 @@ import java.util.List;
 public class MultiFragment {
 
     public static List<Edge> solve(TspData tspData) {
-        List<Point> inputPoints = tspData.toListOfPoint(ListType.LINKED);
+        List<Point> points = tspData.toListOfPoint(ListType.LINKED);
         List<Edge> edges = new LinkedList<>();
         List<Edge> outputEdgeList = new LinkedList<>();
 
         /*Getting all the possible edges*/
-        for (int i = 0; i < inputPoints.size(); i++) {
-            for (int j = i + 1; j < inputPoints.size(); j++) {
-                edges.add(new Edge(inputPoints.get(i), inputPoints.get(j)));
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = i + 1; j < points.size(); j++) {
+                edges.add(new Edge(points.get(i), points.get(j)));
                 //System.out.println("i: " + i + " j: " + j);
             }
         }
@@ -37,7 +37,7 @@ public class MultiFragment {
             /*Check conditions*/
             if (edge.p1.neighbours.size() >= 2 || edge.p2.neighbours.size() >= 2) continue;
             Point.connect(edge.p1, edge.p2);
-            if (checkIfCyclic(edge) && outputEdgeList.size() + 1 != inputPoints.size()) {//Recursive check
+            if (checkIfCyclic(edge) && outputEdgeList.size() + 1 != points.size()) {//Recursive check
                 Point.disconnect(edge.p1, edge.p2);
                 continue;
             }
@@ -46,8 +46,30 @@ public class MultiFragment {
         }
 
         System.out.println(tspData.name + ".MF  Length: " + distance);
+
         return outputEdgeList;
     }
+
+
+    //Edge should be in a cyclic tour
+    static List<Point> createListFromOneEdge(Edge e){
+        List<Point> list = new LinkedList<>();
+        recursiveListCreation(e.p1, null, new HashSet<>(), list);
+        return list;
+    }
+
+    static boolean recursiveListCreation(Point p, Point previous, Set<Point> memory, List<Point> list){
+        memory.add(p);
+        list.add(p);
+        for (Point neighbour : p.neighbours) {
+            if (neighbour.equals(previous)) continue;
+            if (memory.contains(neighbour)) return true;
+            if (recursiveListCreation(neighbour, p, memory, list)) return true;
+        }
+        return false;
+    }
+
+
 
     static boolean recursiveCheck(Point p, Point previous, Set<Point> memory) {
         memory.add(p);
@@ -61,18 +83,20 @@ public class MultiFragment {
 
     static boolean checkIfCyclic(Edge e) {
         //Set<Point> memory = new HashSet<>();//TODO check this, seems strange
-        return recursiveCheck(e.p1, e.p1, new HashSet<>()) && recursiveCheck(e.p2, e.p2, new HashSet<>());
+        return recursiveCheck(e.p1, null, new HashSet<>()) && recursiveCheck(e.p2, null, new HashSet<>());
     }
 
     public static void main(String[] args) throws IOException {
 
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
-        TspData data = map.get("fake.tsp");
-        List<Edge> solution = solve(data);
-        ImageGenerator.generatePNGfromEdges(solution, "ZZ.png");
+        TspData data = map.get("eil76.tsp");
+        List<Edge> solutionEdge = solve(data);
+        List<Point> solutionList = createListFromOneEdge(solutionEdge.get(0));
+        //System.out.println(solutionList.size());
+        ImageGenerator.generatePNGfromEdges(solutionEdge, "ZZ.png");
 
         float distance = 0;
-        for (Edge e : solution) {
+        for (Edge e : solutionEdge) {
             System.out.println(e);
             distance += e.distance;
         }

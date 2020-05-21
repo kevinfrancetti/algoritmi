@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Point {
     public float x, y;
-    public List<Point> neighbours = new LinkedList<>();
+    public List<Point> neighbours = new LinkedList<>();//AKA EDGES
 
     public Point(float x, float y){
         this.x = x;
