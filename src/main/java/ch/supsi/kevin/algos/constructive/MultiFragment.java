@@ -54,36 +54,24 @@ public class MultiFragment {
     //Edge should be in a cyclic tour
     static List<Point> createListFromOneEdge(Edge e){
         List<Point> list = new LinkedList<>();
-        recursiveListCreation(e.p1, null, new HashSet<>(), list);
+        recursiveCycleCheck(e.p1, null, new HashSet<>(), list);
         return list;
     }
 
-    static boolean recursiveListCreation(Point p, Point previous, Set<Point> memory, List<Point> list){
-        memory.add(p);
-        list.add(p);
-        for (Point neighbour : p.neighbours) {
-            if (neighbour.equals(previous)) continue;
-            if (memory.contains(neighbour)) return true;
-            if (recursiveListCreation(neighbour, p, memory, list)) return true;
-        }
-        return false;
-    }
-
-
-
-    static boolean recursiveCheck(Point p, Point previous, Set<Point> memory) {
-        memory.add(p);
-        for (Point neighbour : p.neighbours) {
-            if (neighbour.equals(previous)) continue;
-            if (memory.contains(neighbour)) return true;
-            if (recursiveCheck(neighbour, p, memory)) return true;
-        }
-        return false;
-    }
-
     static boolean checkIfCyclic(Edge e) {
-        //Set<Point> memory = new HashSet<>();//TODO check this, seems strange
-        return recursiveCheck(e.p1, null, new HashSet<>()) && recursiveCheck(e.p2, null, new HashSet<>());
+        return recursiveCycleCheck(e.p1, null, new HashSet<>(), null);
+    }
+
+    /*If list is null then the cycle is not saved, but the it will still give an answer*/
+    private static boolean recursiveCycleCheck(Point p, Point previous, Set<Point> visitedPoints, List<Point> list){
+        visitedPoints.add(p);
+        if(list != null) list.add(p);
+        for (Point neighbour : p.neighbours) {
+            if (neighbour.equals(previous)) continue;
+            if (visitedPoints.contains(neighbour)) return true;
+            if (recursiveCycleCheck(neighbour, p, visitedPoints, list)) return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) throws IOException {
