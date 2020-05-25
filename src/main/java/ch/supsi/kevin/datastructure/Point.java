@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Point {
     public float x, y;
-    public List<Point> neighbours = new LinkedList<>();//AKA EDGES
+    public List<Point> neighbours = new LinkedList<>();//SIZE == 2
 
     public Point(float x, float y){
         this.x = x;
@@ -13,7 +13,7 @@ public class Point {
     }
 
     public String toString(){
-        return "x: " + x + "  y: " + y;
+        return " -- (x:" + x + ",y:" + y+")";
     }
 
     public static float distance(Point p1, Point p2){

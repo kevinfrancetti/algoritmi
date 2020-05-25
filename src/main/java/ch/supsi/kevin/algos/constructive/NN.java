@@ -37,6 +37,7 @@ public class NN {
             current = inputPoints.remove(tmpMinDistIndex);
             outputPoints.add(current);
         }
+        sumOfDistances += Point.distance(outputPoints.get(0), outputPoints.get(outputPoints.size() - 1));
 
         System.out.println(tspData.name + ".NN  Lenght: " +  sumOfDistances);//TODO tmp
         return outputPoints;

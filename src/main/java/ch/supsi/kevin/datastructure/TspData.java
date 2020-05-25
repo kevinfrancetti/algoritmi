@@ -19,32 +19,29 @@ public class TspData {
     public final float[] rawDataArray;//Length will always be even
     public final List<Float> dataList;
 
-    public TspData(List<Float> dataList, String name){
+    public TspData(List<Float> dataList, String name) {
         this.dataList = dataList;
         this.name = name;
         this.rawDataArray = new float[dataList.size()];
-        for(int i = 0; i < this.rawDataArray.length; i++){
+        for (int i = 0; i < this.rawDataArray.length; i++) {
             this.rawDataArray[i] = dataList.get(i);
         }
     }
 
     /*DEBUG PROPOSE*/
-    public void printData(){
+    public void printData() {
         System.out.println(name + ": ");
-        for(int i = 0; i < rawDataArray.length; i++){
+        for (int i = 0; i < rawDataArray.length; i++) {
             System.out.print(rawDataArray[i] + " ");
         }
     }
 
-    public List<Point> toListOfPoint(ListType type){
+    public List<Point> toListOfPoint(ListType type) {
         List<Point> list;
-        if(type == ListType.LINKED) list = new LinkedList<>();
+        if (type == ListType.LINKED) list = new LinkedList<>();
         else list = new ArrayList<>();
 
-        for(int i = 0; i < rawDataArray.length; i+=2){
-            list.add(new Point(rawDataArray[i], rawDataArray[i+1]));
-            //System.out.println(" " + i + " --- " + (i + 1) );//TODO used for debug
-        }
+        for (int i = 0; i < rawDataArray.length; i += 2) list.add(new Point(rawDataArray[i], rawDataArray[i + 1]));
         return list;
     }
 
@@ -53,6 +50,7 @@ public class TspData {
     /**
      * Reads all .tsp files inside a folder and returns a map {@link Map}
      * where the key is the filename with the extension included
+     *
      * @param folderPath {@link String} a folder containing .tsp files.
      * @return Map of {@link TspData}
      */
@@ -95,7 +93,7 @@ public class TspData {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
 
         map.get("ch130.tsp").printData();

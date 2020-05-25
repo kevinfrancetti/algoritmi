@@ -13,7 +13,7 @@ public class MultiFragment {
     public static List<Edge> solve(TspData tspData) {
         List<Point> points = tspData.toListOfPoint(ListType.LINKED);
         List<Edge> edges = new LinkedList<>();
-        List<Edge> outputEdgeList = new LinkedList<>();
+        List<Edge> outputEdges = new LinkedList<>();
 
         /*Getting all the possible edges*/
         for (int i = 0; i < points.size(); i++) {
@@ -37,22 +37,25 @@ public class MultiFragment {
             /*Check conditions*/
             if (edge.p1.neighbours.size() >= 2 || edge.p2.neighbours.size() >= 2) continue;
             Point.connect(edge.p1, edge.p2);
-            if (checkIfCyclic(edge) && outputEdgeList.size() + 1 != points.size()) {//Recursive check
+            if (checkIfCyclic(edge) && outputEdges.size() + 1 != points.size()) {//Recursive check
                 Point.disconnect(edge.p1, edge.p2);
                 continue;
             }
-            outputEdgeList.add(edge);
+            outputEdges.add(edge);
             distance += edge.distance;
         }
 
         System.out.println(tspData.name + ".MF  Length: " + distance);
 
-        return outputEdgeList;
+        return outputEdges;
     }
 
+    public static List<Point> solveAndReturnListOfPoints(TspData tspData){
+        List<Edge> edgeList = solve(tspData);
+        return createListFromOneEdge(edgeList.get(0));//Edge should be in a cyclic tour
+    }
 
-    //Edge should be in a cyclic tour
-    static List<Point> createListFromOneEdge(Edge e){
+    private static List<Point> createListFromOneEdge(Edge e){
         List<Point> list = new LinkedList<>();
         recursiveCycleCheck(e.p1, null, new HashSet<>(), list);
         return list;
