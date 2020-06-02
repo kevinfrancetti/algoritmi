@@ -65,7 +65,7 @@ public class MultiFragment {
         return recursiveCycleCheck(e.p1, null, new HashSet<>(), null);
     }
 
-    /*If list is null then the cycle is not saved, but the it will still give an answer*/
+    /*If list is null then the cycle is not saved, but it will still give an answer*/
     private static boolean recursiveCycleCheck(Point p, Point previous, Set<Point> visitedPoints, List<Point> list){
         visitedPoints.add(p);
         if(list != null) list.add(p);
