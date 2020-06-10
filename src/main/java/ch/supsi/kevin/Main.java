@@ -11,7 +11,16 @@ public class Main {
 
     public static void main(String[] args)  {
 
-        Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
+        /*
+        BufferedReader lineReader = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.println(lineReader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         */
+
+        Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
         for(String title : map.keySet()){
             NN.solve(map.get(title));
             MultiFragment.solve(map.get(title));

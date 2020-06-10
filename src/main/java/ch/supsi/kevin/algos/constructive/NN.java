@@ -7,14 +7,15 @@ import ch.supsi.kevin.datastructure.TspData;
 import ch.supsi.kevin.graphics.ImageGenerator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class NN {
 
     public static List<Point> solve(TspData tspData){
-        List<Point> inputPoints = tspData.toListOfPoint(ListType.LINKED);
-        List<Point> outputPoints = new LinkedList<>();
+        List<Point> inputPoints = tspData.getListOfPoint(ListType.ARRAY);
+        List<Point> outputPoints = new ArrayList<>();
 
         Point current = inputPoints.remove(0);//This should be random or seed
         outputPoints.add(current);
@@ -46,7 +47,7 @@ public class NN {
 
     public static void main(String[] args) throws IOException {
         System.out.println("Nearest neighbour");
-        List<Point> path = solve(TspData.folderToMapOfTspData(Main.FOLDER_PATH).get("fake.tsp"));
+        List<Point> path = solve(TspData.getDataFromFolder(Main.FOLDER_PATH).get("fake.tsp"));
         ImageGenerator.generatePNG(path, "testfake.NN.tsp.png");
         for(Point p : path){
             System.out.println(p);

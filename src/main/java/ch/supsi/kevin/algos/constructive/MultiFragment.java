@@ -10,10 +10,19 @@ import java.util.List;
 
 public class MultiFragment {
 
-    public static List<Edge> solve(TspData tspData) {
-        List<Point> points = tspData.toListOfPoint(ListType.LINKED);
-        List<Edge> edges = new LinkedList<>();
-        List<Edge> outputEdges = new LinkedList<>();
+    public static List<Point> solve(TspData tspData){
+        List<Edge> edgeList = solveAndReturnListOfEdges(tspData);
+        return createListFromOneEdge(edgeList.get(0));//Edge should be in a cyclic tour
+    }
+
+    public static List<Edge> solveAndReturnListOfEdges(TspData tspData) {
+        List<Point> points = tspData.getListOfPoint(ListType.ARRAY);
+        List<Edge> edges = new ArrayList<>();
+        List<Edge> outputEdges = new ArrayList<>();
+
+        LinkedList<Integer> a = new LinkedList<>();
+        a.iterator();
+
 
         /*Getting all the possible edges*/
         for (int i = 0; i < points.size(); i++) {
@@ -50,18 +59,13 @@ public class MultiFragment {
         return outputEdges;
     }
 
-    public static List<Point> solveAndReturnListOfPoints(TspData tspData){
-        List<Edge> edgeList = solve(tspData);
-        return createListFromOneEdge(edgeList.get(0));//Edge should be in a cyclic tour
-    }
-
-    private static List<Point> createListFromOneEdge(Edge e){
+    public static List<Point> createListFromOneEdge(Edge e){
         List<Point> list = new LinkedList<>();
         recursiveCycleCheck(e.p1, null, new HashSet<>(), list);
         return list;
     }
 
-    static boolean checkIfCyclic(Edge e) {
+    private static boolean checkIfCyclic(Edge e) {
         return recursiveCycleCheck(e.p1, null, new HashSet<>(), null);
     }
 
@@ -79,12 +83,12 @@ public class MultiFragment {
 
     public static void main(String[] args) throws IOException {
 
-        Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
+        Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
         TspData data = map.get("eil76.tsp");
-        List<Edge> solutionEdge = solve(data);
+        List<Edge> solutionEdge = solveAndReturnListOfEdges(data);
         List<Point> solutionList = createListFromOneEdge(solutionEdge.get(0));
         //System.out.println(solutionList.size());
-        ImageGenerator.generatePNGfromEdges(solutionEdge, "ZZ.png");
+        ImageGenerator.generatePNG(solutionEdge, "ZZ.png");
 
         float distance = 0;
         for (Edge e : solutionEdge) {

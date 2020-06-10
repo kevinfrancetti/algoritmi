@@ -36,7 +36,7 @@ public class TspData {
         }
     }
 
-    public List<Point> toListOfPoint(ListType type) {
+    public List<Point> getListOfPoint(ListType type) {
         List<Point> list;
         if (type == ListType.LINKED) list = new LinkedList<>();
         else list = new ArrayList<>();
@@ -54,7 +54,7 @@ public class TspData {
      * @param folderPath {@link String} a folder containing .tsp files.
      * @return Map of {@link TspData}
      */
-    public static Map<String, TspData> folderToMapOfTspData(String folderPath) {
+    public static Map<String, TspData> getDataFromFolder(String folderPath) {
         File folder = new File(folderPath);
         Map<String, TspData> map = new HashMap<>();
         for (String fileName : folder.list()) {
@@ -94,7 +94,7 @@ public class TspData {
 
 
     public static void main(String[] args) {
-        Map<String, TspData> map = TspData.folderToMapOfTspData(Main.FOLDER_PATH);
+        Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
 
         map.get("ch130.tsp").printData();
 
