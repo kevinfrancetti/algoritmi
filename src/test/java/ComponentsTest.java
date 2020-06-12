@@ -2,10 +2,13 @@ import ch.supsi.kevin.Main;
 import ch.supsi.kevin.algos.brute.BruteForce;
 import ch.supsi.kevin.algos.constructive.MultiFragment;
 import ch.supsi.kevin.algos.constructive.NN;
+import ch.supsi.kevin.algos.local_search.OneShift;
+import ch.supsi.kevin.datastructure.City;
 import ch.supsi.kevin.datastructure.TspData;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,7 +29,8 @@ public class ComponentsTest {
     public void testNN(){
         Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
         for(String title : map.keySet()){
-            NN.solve(map.get(title));
+            List<City> list = NN.solve(map.get(title));
+            System.out.println(OneShift.computeLength(list));
         }
     }
 
@@ -35,14 +39,23 @@ public class ComponentsTest {
     public void testMF(){
         Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
         for(String title : map.keySet()){
-            MultiFragment.solve(map.get(title));
+            List<City> list = MultiFragment.solve(map.get(title));
+            System.out.println(OneShift.computeLength(list));
         }
     }
 
     @Test @Ignore
-    public void testBruteForcePermutations12(){
-        String[] args1 = {"12"};
-        BruteForce.main(args1);
+    public void testMFfake(){
+        Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
+        List<City> list = MultiFragment.solve(map.get("fake.tsp"));
+        System.out.println(OneShift.computeLength(list));
+    }
+
+    @Test @Ignore
+    public void testNNfake(){
+        Map<String, TspData> map = TspData.getDataFromFolder(Main.FOLDER_PATH);
+        List<City> list = NN.solve(map.get("fake.tsp"));
+        System.out.println(OneShift.computeLength(list));
     }
 
 

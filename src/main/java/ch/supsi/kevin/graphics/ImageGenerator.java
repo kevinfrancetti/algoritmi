@@ -5,7 +5,7 @@ import ch.supsi.kevin.algos.constructive.MultiFragment;
 import ch.supsi.kevin.algos.constructive.NN;
 import ch.supsi.kevin.datastructure.Edge;
 import ch.supsi.kevin.datastructure.TspData;
-import ch.supsi.kevin.datastructure.Point;
+import ch.supsi.kevin.datastructure.City;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -53,11 +53,11 @@ public class ImageGenerator {
 
 
     public static <T> void generatePNG(List<T> list, String title) throws IOException {
-        List<Point> points;
+        List<City> points;
         if (list.get(0) instanceof Edge) {
             points = MultiFragment.createListFromOneEdge((Edge) list.get(0));
         } else {
-            points = (List<Point>) list;
+            points = (List<City>) list;
         }
         generatePNGfromList(points, title);
     }
@@ -106,7 +106,7 @@ public class ImageGenerator {
         ImageIO.write(image, "png", new File(outputDirectoryName + "/" + title));
     }
 
-    private static void generatePNGfromList(List<Point> pointList, String title) throws IOException {
+    private static void generatePNGfromList(List<City> pointList, String title) throws IOException {
         /*Image global setup*/
         final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D graphics2D = image.createGraphics();
@@ -117,7 +117,7 @@ public class ImageGenerator {
         /*Preparing for scaling the data for fit the image size*/
         float xMax = -1;
         float yMax = -1;
-        for (Point p : pointList) {
+        for (City p : pointList) {
             if (p.x > xMax) xMax = p.x;
             if (p.y > yMax) yMax = p.y;
         }

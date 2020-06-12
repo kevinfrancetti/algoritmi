@@ -2,54 +2,54 @@ package ch.supsi.kevin.algos.constructive;
 
 import ch.supsi.kevin.Main;
 import ch.supsi.kevin.datastructure.ListType;
-import ch.supsi.kevin.datastructure.Point;
+import ch.supsi.kevin.datastructure.City;
 import ch.supsi.kevin.datastructure.TspData;
 import ch.supsi.kevin.graphics.ImageGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class NN {
 
-    public static List<Point> solve(TspData tspData){
-        List<Point> inputPoints = tspData.getListOfPoint(ListType.ARRAY);
-        List<Point> outputPoints = new ArrayList<>();
+    public static List<City> solve(TspData tspData) {
+        List<City> cities = tspData.getCities(ListType.LINKED);
+        List<City> tour = new ArrayList<>(tspData.getNumberOfCities());
 
-        Point current = inputPoints.remove(0);//This should be random or seed
-        outputPoints.add(current);
+        City currentCity = cities.remove(0);//This should be random or seed
+        tour.add(currentCity);
 
-        float sumOfDistances = 0;
+        float totalDistance = 0;
 
-        while (inputPoints.size() != 0){
-            float tmpMinDistance = Float.MAX_VALUE;
-            int tmpMinDistIndex = -1;
+        while (cities.size() != 0) {
+            float minDistance = Float.MAX_VALUE;
+            City nearest = null;
 
-            for(int i = 0; i < inputPoints.size(); i++){
-                float distance = Point.distance(current, inputPoints.get(i));
+            for (City city : cities) {
+                float distance = City.distance(currentCity, city);
 
-                if(distance < tmpMinDistance){
-                    tmpMinDistIndex = i;
-                    tmpMinDistance = distance;
+                if (distance < minDistance) {
+                    nearest = city;
+                    minDistance = distance;
                 }
             }
-            sumOfDistances += tmpMinDistance;
-            current = inputPoints.remove(tmpMinDistIndex);
-            outputPoints.add(current);
-        }
-        sumOfDistances += Point.distance(outputPoints.get(0), outputPoints.get(outputPoints.size() - 1));
 
-        System.out.println(tspData.name + ".NN  Lenght: " +  sumOfDistances);//TODO tmp
-        return outputPoints;
+            totalDistance += minDistance;
+            cities.remove(nearest);
+            tour.add(nearest);
+        }
+        totalDistance += City.distance(tour.get(0), tour.get(tour.size() - 1));
+
+        System.out.println(tspData.getName() + ".NN  Lenght: " + totalDistance);//TODO tmp
+        return tour;
     }
 
 
     public static void main(String[] args) throws IOException {
         System.out.println("Nearest neighbour");
-        List<Point> path = solve(TspData.getDataFromFolder(Main.FOLDER_PATH).get("fake.tsp"));
+        List<City> path = solve(TspData.getDataFromFolder(Main.FOLDER_PATH).get("fake.tsp"));
         ImageGenerator.generatePNG(path, "testfake.NN.tsp.png");
-        for(Point p : path){
+        for (City p : path) {
             System.out.println(p);
         }
     }

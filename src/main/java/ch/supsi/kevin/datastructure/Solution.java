@@ -3,18 +3,27 @@ package ch.supsi.kevin.datastructure;
 import java.util.List;
 
 public class Solution {
-    public List<Edge> edgeList;
-    public List<Edge> orderedListOfEdges;
-    public List<Point> orderedListOfPoints;
-
-    public Solution(List<Edge> edgeList, List<Edge> orderedListOfEdges, List<Point> orderedListOfPoints){
-        this.edgeList = edgeList;
-        this.orderedListOfEdges = orderedListOfEdges;
-        this.orderedListOfPoints = orderedListOfPoints;
-    }
+    private List<City> tour;
+    private float length;
 
     public Solution(){
-        this(null, null, null);
+
     }
+
+    public float computeLength(){
+        City previous = null;
+        length = 0;
+        for(City city : tour){
+            if(previous == null){
+                previous = city;
+                continue;
+            }
+            length += City.distance(previous, city);
+        }
+        length += City.distance(tour.get(0), tour.get(tour.size() - 1));
+        return length;
+    }
+
+
 
 }
