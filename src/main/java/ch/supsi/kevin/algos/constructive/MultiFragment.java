@@ -15,7 +15,7 @@ public class MultiFragment {
         return createListFromOneEdge(edgeList.get(0));//Edge should be in a cyclic tour
     }
 
-    public static List<Edge> solveAndReturnListOfEdges(TspData tspData) {
+    private static List<Edge> solveAndReturnListOfEdges(TspData tspData) {
         List<City> points = tspData.getCities(ListType.ARRAY);
         List<Edge> edges = new ArrayList<>();
         List<Edge> outputEdges = new ArrayList<>();

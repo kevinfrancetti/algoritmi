@@ -4,10 +4,11 @@ import java.util.List;
 
 public class Solution {
     private List<City> tour;
-    private float length;
+    private int length;
 
-    public Solution(){
-
+    public Solution(List<City> tour, int length){
+        this.tour = tour;
+        this.length = length;
     }
 
     public float computeLength(){

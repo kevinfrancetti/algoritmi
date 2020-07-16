@@ -154,8 +154,8 @@ public class ImageGenerator {
 
 
         for (String title : map.keySet()) {
-            generatePNG(NN.solve(map.get(title)), title + ".NN.png");
-            generatePNG(MultiFragment.solveAndReturnListOfEdges(map.get(title)), title + ".MF.png");
+            generatePNG(NN.solve(map.get(title)), title + ".new_a_NN.png");
+            //generatePNG(MultiFragment.solveAndReturnListOfEdges(map.get(title)), title + ".MF.png");
         }
 
 

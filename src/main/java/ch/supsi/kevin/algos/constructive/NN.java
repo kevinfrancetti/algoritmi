@@ -35,6 +35,7 @@ public class NN {
             }
 
             totalDistance += minDistance;
+            currentCity = nearest;
             cities.remove(nearest);
             tour.add(nearest);
         }

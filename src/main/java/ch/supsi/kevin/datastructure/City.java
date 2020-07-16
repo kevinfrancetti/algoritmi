@@ -1,11 +1,11 @@
 package ch.supsi.kevin.datastructure;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class City {
-    public float x, y;
-    public List<City> neighbours = new LinkedList<>();//SIZE == 2
+    public final float x, y;
+    public List<City> neighbours = new ArrayList<>(2);//SIZE == 2
 
     public City(float x, float y){
         this.x = x;
